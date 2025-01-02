@@ -1,0 +1,64 @@
+.game {
+  --game-width: 350px;
+
+  position: relative;
+  display: grid;
+  grid-template-rows:
+    minmax(40px, 5%)
+    minmax(440px, 50%)
+    minmax(80px, 5%)
+    minmax(200px, 40%);
+  grid-template-areas:
+    "game__header"
+    "game__board"
+    "game__actions"
+    "game__keyboard";
+  height: 100dvh;
+  gap: var(--layout-board-grid-gap);
+  background-color: var(--color-black);
+  color: var(--color-white);
+  padding: 0.5rem;
+  overflow-y: auto;
+}
+
+.game__board {
+  grid-area: game__board;
+  display: grid;
+  width: 100%;
+  justify-self: center;
+  max-width: var(--game-width);
+
+  /* TODO: remove after layout work */
+  background-color: black;
+}
+
+.game__actions {
+  grid-area: game__actions;
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+  width: var(--game-width);
+  padding: 1rem;
+
+  /* TODO: remove after layout work */
+  background-color: red;
+}
+
+.game__keyboard {
+  grid-area: game__keyboard;
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+  width: var(--game-width);
+
+  /* TODO: remove after layout work */
+  background-color: green;
+}
+
+@media (max-width: 350px) {
+  .game__board,
+  .game__actions,
+  .game__keyboard {
+    width: 100%;
+  }
+}
