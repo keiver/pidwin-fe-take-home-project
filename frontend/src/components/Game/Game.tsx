@@ -12,14 +12,18 @@ const Game: React.FC = () => {
     console.log("Guess Word button clicked")
   }, [])
 
+  const onKeyClicked = useCallback((key: string) => {
+    console.log(`Key clicked: ${key}`)
+  }, [])
+
   return (
     <div className="game" data-testid="game-entry">
       <Header />
       <div className="centered">
         <div className="column">
           <Board />
-          <Button label="Guess Word" onClick={onGuessWordClicked} />
-          <Keyboard />
+          <Button id="guess-button" label="Guess Word" fullWith onClick={onGuessWordClicked} />
+          <Keyboard onKeyClicked={onKeyClicked} />
         </div>
       </div>
     </div>

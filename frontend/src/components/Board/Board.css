@@ -10,6 +10,7 @@
   background-color: var(--color-black);
   gap: var(--layout-board-grid-gap);
   flex-direction: column;
+  margin-bottom: 2rem;
 }
 
 .game__board__row {
@@ -21,12 +22,18 @@
   gap: var(--layout-board-grid-gap);
 }
 
-@media (max-width: 375px) {
+@media (max-width: 375px) or (max-height: 700px) {
   .game__board {
-    gap: calc(var(--layout-board-grid-gap) * 1);
+    gap: calc(var(--layout-board-grid-gap) * 0.6);
   }
 
   .game__board__row {
-    gap: calc(var(--layout-board-grid-gap) * 1);
+    gap: calc(var(--layout-board-grid-gap) * 0.6);
+  }
+}
+
+@media (max-width: 480px) {
+  .game__board {
+    margin-bottom: 0;
   }
 }

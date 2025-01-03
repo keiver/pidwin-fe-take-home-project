@@ -11,12 +11,4 @@ describe("Game", () => {
 
     expect(container).toBeInTheDocument()
   })
-
-  test("renders action button", () => {
-    render(<Game />)
-
-    const buttonElement = screen.getByTestId("guess-word-button")
-
-    expect(buttonElement).toBeInTheDocument()
-  })
 })

@@ -5,7 +5,7 @@ import Keyboard from "./Keyboard"
 
 describe("Keyboard", () => {
   test("renders", () => {
-    render(<Keyboard />)
+    render(<Keyboard onKeyClicked={() => {}} />)
 
     const container = screen.getByTestId("keyboard")
 
