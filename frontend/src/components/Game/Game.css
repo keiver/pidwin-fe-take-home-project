@@ -23,12 +23,19 @@
 .column {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-around;
   align-items: center;
+  height: 50dvh;
 }
 
 @media (max-width: 375px) {
   .centered {
     width: 100%;
+  }
+}
+
+@media (max-width: 775px) {
+  .column {
+    height: 85dvh;
   }
 }

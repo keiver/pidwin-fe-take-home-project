@@ -21,3 +21,31 @@
     min-height: 40px;
   }
 }
+
+.game__board__row__cell--correct-spot {
+  background-color: var(--color-green);
+  border: 2px solid var(--color-green);
+}
+
+.game__board__row__cell--incorrect-spot {
+  position: relative;
+  border-color: var(--color-red);
+  border: 2px solid var(--color-red);
+  border-radius: 4px;
+}
+
+.game__board__row__cell--incorrect-spot::after {
+  content: "";
+  position: absolute;
+  width: 141%;
+  height: 2px;
+  background: var(--color-red);
+  transform: rotate(-45deg);
+  left: -20%;
+  top: 50%;
+}
+
+.game__board__row__cell--wrong-letter {
+  background-color: var(--color-mustard);
+  border: 2px solid var(--color-mustard);
+}

@@ -8,10 +8,10 @@ const Board: React.FC = () => {
   return (
     <div className="game__board" data-testid="game__board">
       <div className="game__board__row">
-        <Cell letter="A" />
-        <Cell letter="B" />
+        <Cell letter="A" state="correct-spot" />
+        <Cell letter="B" state="incorrect-spot" />
         <Cell letter="C" />
-        <Cell letter="D" />
+        <Cell letter="D" state="wrong-letter" />
         <Cell letter="E" />
       </div>
       <div className="game__board__row">

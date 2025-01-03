@@ -9,7 +9,7 @@
 .keyboard__row {
   display: flex;
   justify-content: center;
-  gap: 3px;
+  gap: 4px;
   width: 100%;
 }
 
@@ -22,8 +22,8 @@
   transition: background-color 0.3s ease;
   border: none;
   outline: none;
-  min-height: 40px;
-  padding: 0px 6px;
+  min-height: 50px;
+  padding: 0px 8px;
 }
 
 .keyboard__key:hover {
@@ -44,13 +44,5 @@
     padding: 0px 16px;
     font-size: 1rem;
     min-height: 58px;
-  }
-}
-
-@media (max-width: 350px) {
-  .keyboard__key {
-    padding: 0px 4px;
-    font-size: 0.9rem;
-    min-height: 30px;
   }
 }
