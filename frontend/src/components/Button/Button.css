@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+  width: var(--game-width);
+  padding: 1rem 0.5rem;
+}
+
+.container button,
+.unwrapped {
+  margin: 0;
+  width: 100%;
+  background-color: var(--color-gray-dark);
+  color: var(--color-white);
+  border-radius: 8px;
+  height: 40px;
+  border: none;
+  outline: none;
+  font-weight: 600;
+  user-select: none;
+  cursor: pointer;
+}
+
+.container button:hover,
+.container button:focus,
+.unwrapped:hover,
+.unwrapped:focus {
+  background-color: var(--color-gray-light);
+}
+
+@media (max-width: 375px) {
+  .container button,
+  .unwrapped {
+    width: calc(100dvw - 1rem);
+  }
+}
