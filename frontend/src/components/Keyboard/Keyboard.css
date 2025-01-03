@@ -4,6 +4,9 @@
   align-items: center;
   gap: 4px;
   width: 100%;
+  transition:
+    padding,
+    margin 0.3s ease;
 }
 
 .keyboard__row {
@@ -11,6 +14,10 @@
   justify-content: center;
   gap: 4px;
   width: 100%;
+}
+
+.keyboard__row--space {
+  width: 90%;
 }
 
 .keyboard__key {

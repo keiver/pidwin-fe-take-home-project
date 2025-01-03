@@ -3,6 +3,7 @@ import React, { useCallback, useMemo, lazy, Suspense } from "react"
 import "./Game.css"
 
 import { useGame } from "../../hooks/useGame"
+import Loader from "../Loader/Loader"
 
 const Board = lazy(() => import("../Board"))
 const Header = lazy(() => import("../Header/Header"))
@@ -56,7 +57,7 @@ const Game: React.FC = () => {
   }, [isLoading, gameStatus, currentGuess])
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loader />}>
       <div
         className="game"
         role="main"

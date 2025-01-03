@@ -6,6 +6,8 @@ import reportWebVitals from "./reportWebVitals"
 
 import "./index.css"
 
+import Loader from "./components/Loader/Loader"
+
 const ErrorBoundary = lazy(() => import("./components/ErrorBoundary"))
 const Game = lazy(() => import("./components/Game"))
 
@@ -13,7 +15,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"))
 
 root.render(
   <React.StrictMode>
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loader />}>
       <ErrorBoundary>
         <GameProvider>
           <Game />

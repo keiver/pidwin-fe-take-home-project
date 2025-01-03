@@ -50,7 +50,10 @@ const Keyboard: React.FC<KeyboardProps> = ({ onKeyClicked, disabled }) => {
       aria-label="Virtual keyboard"
     >
       {keys.map((row, rowIndex) => (
-        <div key={rowIndex} className="keyboard__row">
+        <div
+          key={rowIndex}
+          className={`keyboard__row ${rowIndex === 1 ? "keyboard__row--space" : ""}`}
+        >
           {row.map(key => {
             const { label, value } = renderKey(key)
 

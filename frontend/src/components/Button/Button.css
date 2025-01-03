@@ -2,8 +2,8 @@
   display: flex;
   justify-content: center;
   justify-self: center;
-  width: var(--game-width);
-  padding: 1rem 0.5rem;
+  width: 100%;
+  padding: 1rem 0.25rem;
 }
 
 .container button,
