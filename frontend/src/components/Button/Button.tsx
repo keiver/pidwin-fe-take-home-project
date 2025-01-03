@@ -10,6 +10,7 @@ export interface ButtonProps {
   fullWith?: boolean
   "data-key"?: string
   "aria-label"?: string
+  disabled?: boolean
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -18,10 +19,17 @@ const Button: React.FC<ButtonProps> = ({
   label = "",
   className = "",
   fullWith = false,
+  disabled = false,
   ...props
 }: ButtonProps) => {
   const button = (
-    <button {...props} data-testid={`button-${id}`} onClick={onClick} className={`unwrapped ${className}`}>
+    <button
+      {...props}
+      disabled={disabled || false}
+      data-testid={`button-${id}`}
+      onClick={onClick}
+      className={`unwrapped ${className}`}
+    >
       {label}
     </button>
   )

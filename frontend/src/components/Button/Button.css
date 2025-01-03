@@ -21,15 +21,21 @@
   cursor: pointer;
 }
 
-.container button:hover,
-.container button:focus,
-.unwrapped:hover,
-.unwrapped:focus {
+.container button:disabled,
+.unwrapped:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.container button:hover:not(:disabled),
+.container button:focus:not(:disabled),
+.unwrapped:hover:not(:disabled),
+.unwrapped:focus:not(:disabled) {
   background-color: var(--color-gray-light);
 }
 
 @media (max-width: 375px) {
-  .container button,
+  .container button:not(:disabled),
   .unwrapped {
     width: calc(100dvw - 1rem);
   }

@@ -10,6 +10,7 @@
   font-weight: 700;
   user-select: none;
   cursor: pointer;
+  text-transform: uppercase;
 }
 
 @media (max-width: 375px) {
@@ -48,4 +49,8 @@
 .game__board__row__cell--wrong-letter {
   background-color: var(--color-mustard);
   border: 2px solid var(--color-mustard);
+}
+
+.game__board__row__cell--highlighted {
+  border-color: var(--color-gray-light);
 }
