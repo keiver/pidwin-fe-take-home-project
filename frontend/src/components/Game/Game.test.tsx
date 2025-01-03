@@ -1,8 +1,8 @@
 import React from "react"
-import {render, screen, fireEvent} from "@testing-library/react"
+import { render, screen, fireEvent } from "@testing-library/react"
 
 import Game from "./Game"
-import {useGame} from "../../hooks/useGame"
+import { useGame } from "../../hooks/useGame"
 
 jest.mock("../../hooks/useGame")
 
@@ -36,7 +36,7 @@ describe("Game", () => {
   test("handles letter input via keyboard", () => {
     const addLetter = jest.fn()
 
-    mockUseGame.mockReturnValue({...mockGameState, addLetter})
+    mockUseGame.mockReturnValue({ ...mockGameState, addLetter })
     render(<Game />)
     fireEvent.click(screen.getByLabelText("A"))
     expect(addLetter).toHaveBeenCalledWith("A")

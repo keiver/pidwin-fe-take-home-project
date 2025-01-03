@@ -1,5 +1,5 @@
-import React, {createContext, useContext, useReducer, ReactNode} from "react"
-import {MAX_ATTEMPTS, WORD_LENGTH} from "../contants"
+import React, { createContext, useContext, useReducer, ReactNode } from "react"
+import { MAX_ATTEMPTS, WORD_LENGTH } from "../contants"
 
 const initialState: GameState = {
   currentGuess: "",
@@ -50,8 +50,10 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       }
 
     case "SUBMIT_GUESS_SUCCESS": {
-      const result = action.payload.split("").map(char => cellStateMap[char as keyof ServiceCellStateMap])
-      const newHistory = [...state.history, {word: state.currentGuess, result}]
+      const result = action.payload
+        .split("")
+        .map(char => cellStateMap[char as keyof ServiceCellStateMap])
+      const newHistory = [...state.history, { word: state.currentGuess, result }]
       const isWon = action.payload === "11111"
       const isLost = newHistory.length >= MAX_ATTEMPTS
 
@@ -80,10 +82,14 @@ function gameReducer(state: GameState, action: GameAction): GameState {
   }
 }
 
-export function GameProvider({children}: {children: ReactNode}) {
+export function GameProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(gameReducer, initialState)
 
-  return <GameContext.Provider value={{state, dispatch}}>{children}</GameContext.Provider>
+  return (
+    <GameContext.Provider value={{ state, dispatch }}>
+      {children}
+    </GameContext.Provider>
+  )
 }
 
 export function useGameContext() {

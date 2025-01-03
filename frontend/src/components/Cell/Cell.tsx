@@ -1,4 +1,4 @@
-import React, {useMemo} from "react"
+import React, { useMemo } from "react"
 
 import "./Cell.css"
 
@@ -8,7 +8,11 @@ export interface CellProps {
   isHighlighted?: boolean
 }
 
-const Cell: React.FC<CellProps> = ({letter = "", state = "default", isHighlighted = false}: CellProps) => {
+const Cell: React.FC<CellProps> = ({
+  letter = "",
+  state = "default",
+  isHighlighted = false
+}: CellProps) => {
   const stateClass = useMemo(() => {
     if (isHighlighted) {
       return "game__board__row__cell--highlighted"

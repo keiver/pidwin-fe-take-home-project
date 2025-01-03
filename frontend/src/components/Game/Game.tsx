@@ -1,11 +1,13 @@
-import React, {useCallback} from "react"
+import React, { useCallback, useMemo, lazy, Suspense } from "react"
+
 import "./Game.css"
 
-import Board from "../Board"
-import Header from "../Header/Header"
-import Button from "../Button/Button"
-import Keyboard from "../Keyboard/Keyboard"
-import {useGame} from "../../hooks/useGame"
+import { useGame } from "../../hooks/useGame"
+
+const Board = lazy(() => import("../Board"))
+const Header = lazy(() => import("../Header/Header"))
+const Button = lazy(() => import("../Button/Button"))
+const Keyboard = lazy(() => import("../Keyboard/Keyboard"))
 
 const Game: React.FC = () => {
   const {
@@ -37,33 +39,66 @@ const Game: React.FC = () => {
     [addLetter, removeLetter, submitGuess]
   )
 
+  const buttonLabel = useMemo(() => {
+    if (won === true) {
+      return "Winner"
+    }
+
+    if (won === false) {
+      return "Game Over"
+    }
+
+    return "Guess Word"
+  }, [won])
+
+  const isMainButtonDisabled = useMemo(() => {
+    return isLoading || gameStatus !== "playing" || currentGuess.length !== 5
+  }, [isLoading, gameStatus, currentGuess])
+
   return (
-    <div className="game" role="main" aria-label="Wordle Game Clone" data-testid="game-entry">
-      <Header />
-      <div aria-live="polite" aria-atomic="true" className="sr-only" id="game-status">
-        Current attempt {history.length + 1} of 6
-      </div>
-      <div className="centered">
-        <div className="column">
-          <Board
-            currentGuess={currentGuess}
-            history={history.map(h => ({
-              word: h.word,
-              result: h.result
-            }))}
-          />
-          <Button
-            id="guess-button"
-            label={won === true ? "Winner" : won === false ? "Game Over" : "Guess Word"}
-            fullWith
-            onClick={onGuessWordClicked}
-            disabled={isLoading || gameStatus !== "playing" || currentGuess?.length < 5}
-          />
-          {error && <div className="error">{error}</div>}
-          <Keyboard onKeyClicked={onKeyClicked} disabled={isLoading || gameStatus !== "playing"} />
+    <Suspense fallback={<div>Loading...</div>}>
+      <div
+        className="game"
+        role="main"
+        aria-label="Wordle Game Clone"
+        data-testid="game-entry"
+      >
+        <Header />
+        <div
+          aria-live="polite"
+          aria-atomic="true"
+          className="sr-only"
+          id="game-status"
+        >
+          Current attempt {history.length + 1} of 6.
+          {won === true && "You won!"}
+          {won === false && "Game over."}
+        </div>
+        <div className="centered">
+          <div className="column">
+            <Board
+              currentGuess={currentGuess}
+              history={history.map(h => ({
+                word: h.word,
+                result: h.result
+              }))}
+            />
+            <Button
+              id="guess-button"
+              label={buttonLabel}
+              fullWith
+              onClick={onGuessWordClicked}
+              disabled={isMainButtonDisabled}
+            />
+            {error && <div className="error">{error}</div>}
+            <Keyboard
+              onKeyClicked={onKeyClicked}
+              disabled={isLoading || gameStatus !== "playing"}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </Suspense>
   )
 }
 

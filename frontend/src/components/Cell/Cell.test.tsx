@@ -1,7 +1,7 @@
 import React from "react"
-import {render, screen} from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 
-import Cell, {CellProps} from "./Cell"
+import Cell, { CellProps } from "./Cell"
 
 describe("Cell", () => {
   const renderCell = (props: CellProps) => {
@@ -9,12 +9,12 @@ describe("Cell", () => {
   }
 
   it("renders", () => {
-    renderCell({letter: "A"})
+    renderCell({ letter: "A" })
     expect(screen.getByTestId("cell-for-letter-A")).toBeInTheDocument()
   })
 
   it("displays the provided letter", () => {
-    renderCell({letter: "B"})
+    renderCell({ letter: "B" })
 
     const cell = screen.getByTestId("cell-for-letter-B")
 
@@ -22,7 +22,7 @@ describe("Cell", () => {
   })
 
   it("applies the correct CSS class", () => {
-    renderCell({letter: "C"})
+    renderCell({ letter: "C" })
 
     const cell = screen.getByTestId("cell-for-letter-C")
 

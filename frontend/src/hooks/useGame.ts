@@ -1,8 +1,8 @@
-import {useCallback, useEffect, useMemo, useState} from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 
-import {useGameContext} from "../context/GameContext"
-import {checkGuess} from "../services/word"
-import {MAX_ATTEMPTS, WORD_LENGTH} from "../contants"
+import { useGameContext } from "../context/GameContext"
+import { checkGuess } from "../services/word"
+import { MAX_ATTEMPTS, WORD_LENGTH } from "../contants"
 
 interface UseGameOptions {
   wordLength?: number
@@ -11,8 +11,8 @@ interface UseGameOptions {
 
 interface UseGameHookReturn {
   currentGuess: string
-  guessHistory: Array<{word: string; result: CellState[]}>
-  gameStatus: "playing" | "won" | "lost"
+  guessHistory: Array<{ word: string; result: CellState[] }>
+  gameStatus: PossibleGameStatus
   error: string | null
   isLoading: boolean
   board: Array<
@@ -33,7 +33,7 @@ export const useGame = ({
   wordLength = WORD_LENGTH,
   maxAttempts = MAX_ATTEMPTS
 }: UseGameOptions = {}): UseGameHookReturn => {
-  const {state, dispatch} = useGameContext()
+  const { state, dispatch } = useGameContext()
   const [won, setWon] = useState<boolean | null>(null)
 
   // check if the key is a valid letter
@@ -42,27 +42,27 @@ export const useGame = ({
   const addLetter = useCallback(
     (letter: string) => {
       if (isValidKey(letter)) {
-        dispatch({type: "ADD_LETTER", payload: letter.toLowerCase()})
+        dispatch({ type: "ADD_LETTER", payload: letter.toLowerCase() })
       }
     },
     [dispatch, isValidKey]
   )
 
   const removeLetter = useCallback(() => {
-    dispatch({type: "REMOVE_LETTER"}) // we always remove last letter
+    dispatch({ type: "REMOVE_LETTER" }) // we always remove last letter
   }, [dispatch])
 
   const submitGuess = useCallback(async () => {
     // not a complete word
     if (state.currentGuess.length !== wordLength) return
 
-    dispatch({type: "SUBMIT_GUESS_START"})
+    dispatch({ type: "SUBMIT_GUESS_START" })
 
     try {
       const response = await checkGuess(state.currentGuess)
 
       if (response?.success && response?.result) {
-        dispatch({type: "SUBMIT_GUESS_SUCCESS", payload: response.result})
+        dispatch({ type: "SUBMIT_GUESS_SUCCESS", payload: response.result })
 
         // in case we change the word length, using repeat
         if (response.result === "1".repeat(wordLength)) {
@@ -79,10 +79,17 @@ export const useGame = ({
         payload: error instanceof Error ? error.message : "Unknown error"
       })
     }
-  }, [state.currentGuess, state.history.length, dispatch, wordLength, maxAttempts, setWon])
+  }, [
+    state.currentGuess,
+    state.history.length,
+    dispatch,
+    wordLength,
+    maxAttempts,
+    setWon
+  ])
 
   const startNewGame = useCallback(() => {
-    dispatch({type: "START_NEW_GAME"})
+    dispatch({ type: "START_NEW_GAME" })
   }, [dispatch])
 
   const board = useMemo(() => {

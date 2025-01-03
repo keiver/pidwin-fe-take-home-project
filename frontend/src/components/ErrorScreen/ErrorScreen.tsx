@@ -6,7 +6,7 @@ export interface Props {
   error?: Error | null
 }
 
-const ErrorScreen: React.FC<Props> = ({error}: Props) => {
+const ErrorScreen: React.FC<Props> = ({ error }: Props) => {
   return (
     <div className="error__screen">
       <h1>Error</h1>

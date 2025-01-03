@@ -3,7 +3,7 @@ import React from "react"
 import "./Board.css"
 
 import Cell from "../Cell"
-import {MAX_ATTEMPTS, WORD_LENGTH} from "../../contants"
+import { MAX_ATTEMPTS, WORD_LENGTH } from "../../contants"
 
 interface BoardProps {
   currentGuess: string
@@ -13,12 +13,14 @@ interface BoardProps {
   }>
 }
 
-const Board: React.FC<BoardProps> = ({currentGuess, history}) => {
+const Board: React.FC<BoardProps> = ({ currentGuess, history }) => {
   const renderRow = (rowIndex: number) => {
-    // used lines
+    // filled lines
     if (rowIndex < history.length) {
-      const {word, result} = history[rowIndex]
-      return Array.from(word).map((letter, i) => <Cell key={i} letter={letter} state={result[i]} />)
+      const { word, result } = history[rowIndex]
+      return Array.from(word).map((letter, i) => (
+        <Cell key={i} letter={letter} state={result[i]} />
+      ))
     }
 
     // current line
@@ -28,7 +30,11 @@ const Board: React.FC<BoardProps> = ({currentGuess, history}) => {
       return Array(WORD_LENGTH)
         .fill(null)
         .map((_, i) => (
-          <Cell key={i} letter={currentGuess[i] || ""} isHighlighted={i === lastCharIndex && lastCharIndex >= 0} />
+          <Cell
+            key={i}
+            letter={currentGuess[i] || ""}
+            isHighlighted={i === lastCharIndex && lastCharIndex >= 0}
+          />
         ))
     }
 
@@ -49,7 +55,12 @@ const Board: React.FC<BoardProps> = ({currentGuess, history}) => {
       {Array(MAX_ATTEMPTS)
         .fill(null)
         .map((_, rowIndex) => (
-          <div key={rowIndex} className="game__board__row" role="row" aria-label={`Row ${rowIndex + 1}`}>
+          <div
+            key={rowIndex}
+            className="game__board__row"
+            role="row"
+            aria-label={`Row ${rowIndex + 1}`}
+          >
             {renderRow(rowIndex)}
           </div>
         ))}

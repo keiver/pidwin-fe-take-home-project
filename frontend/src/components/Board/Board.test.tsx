@@ -1,5 +1,5 @@
 import React from "react"
-import {render, screen} from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 
 import Board from "./Board"
 
@@ -31,7 +31,13 @@ describe("Board", () => {
         history={[
           {
             word: "REACT",
-            result: ["correct-spot", "wrong-letter", "incorrect-spot", "correct-spot", "wrong-letter"]
+            result: [
+              "correct-spot",
+              "wrong-letter",
+              "incorrect-spot",
+              "correct-spot",
+              "wrong-letter"
+            ]
           }
         ]}
       />

@@ -22,12 +22,12 @@ interface GameState {
 }
 
 type GameAction =
-  | {type: "ADD_LETTER"; payload: string}
-  | {type: "REMOVE_LETTER"}
-  | {type: "SUBMIT_GUESS_START"}
-  | {type: "SUBMIT_GUESS_SUCCESS"; payload: string}
-  | {type: "SUBMIT_GUESS_ERROR"; payload: string}
-  | {type: "START_NEW_GAME"}
+  | { type: "ADD_LETTER"; payload: string }
+  | { type: "REMOVE_LETTER" }
+  | { type: "SUBMIT_GUESS_START" }
+  | { type: "SUBMIT_GUESS_SUCCESS"; payload: string }
+  | { type: "SUBMIT_GUESS_ERROR"; payload: string }
+  | { type: "START_NEW_GAME" }
 
 interface ApiResponse {
   success: boolean
@@ -40,3 +40,5 @@ type ServiceCellStateMap = {
   "0": "wrong-letter"
   x: "incorrect-spot"
 }
+
+type PossibleGameStatus = "playing" | "won" | "lost"
