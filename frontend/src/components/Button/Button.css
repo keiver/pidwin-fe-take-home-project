@@ -1,0 +1,31 @@
+.game__actions {
+  grid-area: game__actions;
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+  width: var(--game-width);
+  padding: 1rem 0.5rem;
+}
+
+.game__actions button {
+  margin: 0;
+  width: 100%;
+  background-color: var(--color-gray-dark);
+  color: var(--color-white);
+  border-radius: 8px;
+  height: 40px;
+  border: none;
+  outline: none;
+  font-weight: 600;
+}
+
+.game__actions button:hover,
+.game__actions button:focus {
+  background-color: var(--color-gray-light);
+}
+
+@media (max-width: 375px) {
+  .game__actions button {
+    width: calc(100dvw - 1rem);
+  }
+}

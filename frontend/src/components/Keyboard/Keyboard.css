@@ -1,0 +1,40 @@
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+  width: var(--game-width);
+}
+
+.keyboard__row {
+  display: flex;
+  justify-content: center;
+  margin: 2px 0;
+}
+
+.keyboard__key {
+  background-color: var(--color-gray-dark);
+  color: var(--color-white);
+  border-radius: 5px;
+  padding: 10px 8px;
+  margin: 0 5px;
+  font-size: 16px;
+  cursor: pointer;
+  min-width: 2rem;
+  transition: background-color 0.3s ease;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+}
+
+.keyboard__key:hover {
+  background-color: #e0e0e0;
+}
+
+.keyboard__key:active {
+  background-color: #d0d0d0;
+}

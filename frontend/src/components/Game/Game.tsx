@@ -1,23 +1,26 @@
-import React from "react"
+import React, {useCallback} from "react"
 
 import "./Game.css"
 
+import Board from "../Board"
+import Header from "../Header/Header"
+import Button from "../Button/Button"
+import Keyboard from "../Keyboard/Keyboard"
+
 const Game: React.FC = () => {
+  const onGuessWordClicked = useCallback(() => {
+    console.log("Guess Word button clicked")
+  }, [])
+
   return (
     <div className="game" data-testid="game-entry">
-      <header className="game__header">
-        <h1>Wordle</h1>
-      </header>
-      <div className="game__board">
-        <p>Board</p>
-      </div>
-      <div className="game__actions">
-        <button data-testid="guess-word-button" onClick={console.dir}>
-          Guess Word
-        </button>
-      </div>
-      <div className="game__keyboard">
-        <p>Keyboard</p>
+      <Header />
+      <div className="centered">
+        <div className="column">
+          <Board />
+          <Button label="Guess Word" onClick={onGuessWordClicked} />
+          <Keyboard />
+        </div>
       </div>
     </div>
   )
