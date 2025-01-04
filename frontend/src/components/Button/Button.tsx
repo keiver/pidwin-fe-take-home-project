@@ -11,6 +11,7 @@ export interface ButtonProps {
   "data-key"?: string
   "aria-label"?: string
   disabled?: boolean
+  loading?: boolean
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -20,6 +21,7 @@ const Button: React.FC<ButtonProps> = ({
   className = "",
   fullWith = false,
   disabled = false,
+  loading = false,
   ...props
 }: ButtonProps) => {
   const button = (
@@ -30,11 +32,14 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       className={`unwrapped ${className}`}
     >
-      {label}
+      <span>{label}</span>
+      {loading && <span className="loader" />}
     </button>
   )
 
   return fullWith ? <div className="container">{button}</div> : button
 }
+
+Button.displayName = "Button"
 
 export default Button

@@ -12,6 +12,8 @@ A React TypeScript implementation of Wordle, featuring accessibility support and
 - Error boundary implementation
 - Basic accessibility features (ARIA labels, screen reader support)
 - Mock Word validation service integration
+- Animated reveal of guessed word cells
+- Loading spinner for async service calls
 
 ## Todo
 

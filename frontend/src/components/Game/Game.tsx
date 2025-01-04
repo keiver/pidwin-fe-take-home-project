@@ -2,8 +2,8 @@ import React, { useCallback, useMemo, lazy, Suspense } from "react"
 
 import "./Game.css"
 
-import { useGame } from "../../hooks/useGame"
 import Loader from "../Loader/Loader"
+import { useGame } from "../../hooks/useGame"
 
 const Board = lazy(() => import("../Board"))
 const Header = lazy(() => import("../Header/Header"))
@@ -88,6 +88,7 @@ const Game: React.FC = () => {
               id="guess-button"
               label={buttonLabel}
               fullWith
+              loading={isLoading}
               onClick={onGuessWordClicked}
               disabled={isMainButtonDisabled}
             />

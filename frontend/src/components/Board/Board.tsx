@@ -66,4 +66,6 @@ const Board: React.FC<BoardProps> = ({ currentGuess, history }) => {
   )
 }
 
+Board.displayName = "Board"
+
 export default memo(Board)

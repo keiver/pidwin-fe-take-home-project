@@ -64,7 +64,7 @@
   width: 141%;
   height: 2px;
   background: var(--color-red);
-  transform: rotate(-45deg);
+  transform: rotate(45deg);
   left: -20%;
   top: 50%;
 }
