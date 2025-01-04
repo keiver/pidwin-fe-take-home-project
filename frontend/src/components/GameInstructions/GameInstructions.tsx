@@ -7,8 +7,8 @@ const GameInstructions = () => {
     <div className="instructions">
       <h2>How to Play</h2>
       <p>Guess the word in 6 tries</p>
-
-      <div className="example">
+      <br />
+      <div className="instructions__group">
         <div className="game__board__row">
           <div className="game__board__row__cell game__board__row__cell--correct-spot">
             G
@@ -18,10 +18,8 @@ const GameInstructions = () => {
           <div className="game__board__row__cell">E</div>
           <div className="game__board__row__cell">S</div>
         </div>
-        <p>Green means the letter is in the right spot</p>
       </div>
-
-      <div className="example">
+      <div className="instructions__group">
         <div className="game__board__row">
           <div className="game__board__row__cell">B</div>
           <div className="game__board__row__cell game__board__row__cell--incorrect-spot">
@@ -31,10 +29,8 @@ const GameInstructions = () => {
           <div className="game__board__row__cell">R</div>
           <div className="game__board__row__cell">D</div>
         </div>
-        <p>Yellow means the letter is in the word but wrong spot</p>
       </div>
-
-      <div className="example">
+      <div className="instructions__group">
         <div className="game__board__row">
           <div className="game__board__row__cell">W</div>
           <div className="game__board__row__cell">O</div>
@@ -44,9 +40,18 @@ const GameInstructions = () => {
           <div className="game__board__row__cell">D</div>
           <div className="game__board__row__cell">S</div>
         </div>
-        <p>Red cross means the letter is not in the word</p>
       </div>
-
+      <br />
+      <p>
+        <b>G</b> &nbsp; is in the correct spot
+      </p>
+      <p>
+        <b>O</b> &nbsp; is in the wrong spot
+      </p>
+      <p>
+        <b>R</b> &nbsp; is not in the word
+      </p>
+      <br />
       <p>Enjoy!</p>
     </div>
   )

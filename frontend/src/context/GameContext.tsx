@@ -19,8 +19,8 @@ const GameContext = createContext<
 
 const cellStateMap: ServiceCellStateMap = {
   "1": "correct-spot",
-  "0": "wrong-letter",
-  x: "incorrect-spot"
+  "0": "incorrect-spot",
+  x: "wrong-letter"
 }
 
 function gameReducer(state: GameState, action: GameAction): GameState {

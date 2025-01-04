@@ -36,8 +36,8 @@ interface ApiResponse {
 
 type ServiceCellStateMap = {
   "1": "correct-spot"
-  "0": "wrong-letter"
-  x: "incorrect-spot"
+  "0": "incorrect-spot"
+  x: "wrong-letter"
 }
 
 type PossibleGameStatus = "playing" | "won" | "lost"

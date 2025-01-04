@@ -1,0 +1,24 @@
+.instructions {
+  margin: 1rem auto;
+}
+
+.instructions__group {
+  margin: 1rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.instructions__group .game__board__row {
+  padding: 5px;
+  max-width: 218px;
+  max-height: 35px;
+}
+
+.instructions__group .game__board__row__cell {
+  width: 34px;
+  height: 34px;
+  font-size: 1rem;
+  text-align: center;
+}

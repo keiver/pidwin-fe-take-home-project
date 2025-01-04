@@ -15,10 +15,10 @@ A React TypeScript implementation of Wordle, featuring accessibility support and
 - Animated reveal of guessed word cells
 - Loading spinner for async service calls
 - Restart game button
+- Instructions modal
 
 ## Todo
 
-- Instructions modal
 - Some sort of game persistence
 - Server side rendering for SEO
 - Settings (theme toggle, colorblind mode)

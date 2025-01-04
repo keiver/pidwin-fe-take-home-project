@@ -2,15 +2,15 @@ import React, { useCallback, useMemo, lazy, Suspense } from "react"
 
 import "./Game.css"
 
-import Loader from "../Loader/Loader"
 import { useGame } from "../../hooks/useGame"
-import GameInstructions from "../GameInstructions/GameInstructions"
+import Loader from "../Loader/Loader"
 
 const Board = lazy(() => import("../Board"))
 const Header = lazy(() => import("../Header/Header"))
 const Button = lazy(() => import("../Button/Button"))
 const Keyboard = lazy(() => import("../Keyboard/Keyboard"))
 const Modal = lazy(() => import("../Modal/Modal"))
+const GameInstructions = lazy(() => import("../GameInstructions/GameInstructions"))
 
 const Game: React.FC = () => {
   const [modalOpen, setModalOpen] = React.useState(false)

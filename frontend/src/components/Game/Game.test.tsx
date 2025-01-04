@@ -1,11 +1,41 @@
-import React, { act } from "react"
-import { render, screen, fireEvent, waitFor } from "@testing-library/react"
-
+import React from "react"
+import { render, screen, fireEvent } from "@testing-library/react"
 import Game from "./Game"
 import { useGame } from "../../hooks/useGame"
 
-jest.mock("../../hooks/useGame")
+// Mock all lazy-loaded components
+jest.mock("../Board", () => ({
+  __esModule: true,
+  default: () => <div data-testid="mocked-board">Board</div>
+}))
 
+jest.mock("../Header/Header", () => ({
+  __esModule: true,
+  default: () => <div data-testid="mocked-header">Header</div>
+}))
+
+jest.mock("../Button/Button", () => ({
+  __esModule: true,
+  default: ({ id, label, disabled }: any) => (
+    <button data-testid={`button-${id}`} disabled={disabled}>
+      {label}
+    </button>
+  )
+}))
+
+jest.mock("../Keyboard/Keyboard", () => ({
+  __esModule: true,
+  default: ({ onKeyClicked }: any) => (
+    <div data-testid="mocked-keyboard">
+      <button aria-label="A" onClick={() => onKeyClicked("A")}>
+        A
+      </button>
+    </div>
+  )
+}))
+
+// Mock useGame hook
+jest.mock("../../hooks/useGame")
 const mockUseGame = useGame as jest.Mock
 
 describe("Game", () => {
@@ -18,7 +48,9 @@ describe("Game", () => {
     submitGuess: jest.fn(),
     addLetter: jest.fn(),
     removeLetter: jest.fn(),
-    won: null
+    won: null,
+    startNewGame: jest.fn(), // Add missing required prop
+    board: [] // Add missing required prop
   }
 
   beforeEach(() => {
@@ -26,71 +58,61 @@ describe("Game", () => {
     mockUseGame.mockReturnValue(mockGameState)
   })
 
-  test("renders", () => {
+  test("renders", async () => {
     render(<Game />)
 
-    waitFor(() => {
-      expect(screen.getByTestId("game-entry")).toBeInTheDocument()
-      expect(screen.getByTestId("game__header")).toBeInTheDocument()
-      expect(screen.getByText("Current attempt 1 of 6")).toBeInTheDocument()
-    })
+    expect(await screen.findByTestId("game-entry")).toBeInTheDocument()
+    expect(await screen.findByTestId("mocked-header")).toBeInTheDocument()
+    expect(await screen.findByText(/Current attempt 1 of 6/)).toBeInTheDocument()
   })
 
-  test("handles letter input via keyboard", () => {
+  test("handles letter input via keyboard", async () => {
     const addLetter = jest.fn()
-
     mockUseGame.mockReturnValue({ ...mockGameState, addLetter })
 
-    waitFor(() => {
-      render(<Game />)
-    })
+    render(<Game />)
 
-    act(() => {
-      fireEvent.click(screen.getByLabelText("A"))
-    })
-
+    const keyboardButton = await screen.findByLabelText("A")
+    fireEvent.click(keyboardButton)
     expect(addLetter).toHaveBeenCalledWith("A")
   })
 
-  test("disables guess button when word is incomplete", () => {
+  test("disables guess button when word is incomplete", async () => {
     mockUseGame.mockReturnValue({
       ...mockGameState,
-      currentGuess: "HEL", // 3 letters only
+      currentGuess: "HEL",
       gameStatus: "playing"
     })
 
-    waitFor(() => {
-      render(<Game />)
-    })
+    render(<Game />)
 
-    expect(screen.getByTestId("button-guess-button")).toBeDisabled()
+    const button = await screen.findByTestId("button-guess-button")
+    expect(button).toBeDisabled()
   })
 
-  test("displays win state correctly", () => {
+  test("displays win state correctly", async () => {
     mockUseGame.mockReturnValue({
       ...mockGameState,
       won: true,
       gameStatus: "won"
     })
 
-    waitFor(() => {
-      render(<Game />)
-    })
+    render(<Game />)
 
-    expect(screen.getByTestId("button-guess-button")).toHaveTextContent("Winner")
+    const button = await screen.findByTestId("button-guess-button")
+    expect(button).toHaveTextContent("Winner")
   })
 
-  test("displays lose state correctly", () => {
+  test("displays lose state correctly", async () => {
     mockUseGame.mockReturnValue({
       ...mockGameState,
       won: false,
       gameStatus: "lost"
     })
 
-    waitFor(() => {
-      render(<Game />)
-    })
+    render(<Game />)
 
-    expect(screen.getByTestId("button-guess-button")).toHaveTextContent("Game Over")
+    const button = await screen.findByTestId("button-guess-button")
+    expect(button).toHaveTextContent("Game Over")
   })
 })

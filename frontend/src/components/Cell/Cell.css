@@ -52,13 +52,18 @@
 }
 
 .game__board__row__cell--incorrect-spot {
+  background-color: var(--color-mustard);
+  border: 2px solid var(--color-mustard);
+}
+
+.game__board__row__cell--wrong-letter {
   position: relative;
   border-color: var(--color-red);
   border: 2px solid var(--color-red);
   border-radius: 4px;
 }
 
-.game__board__row__cell--incorrect-spot::after {
+.game__board__row__cell--wrong-letter::after {
   content: "";
   position: absolute;
   width: 141%;
@@ -67,11 +72,6 @@
   transform: rotate(45deg); /* rotate 45 degrees, -45 if flipped */
   left: -20%;
   top: 50%;
-}
-
-.game__board__row__cell--wrong-letter {
-  background-color: var(--color-mustard);
-  border: 2px solid var(--color-mustard);
 }
 
 .game__board__row__cell--highlighted {
