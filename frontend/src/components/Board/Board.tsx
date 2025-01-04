@@ -1,9 +1,9 @@
-import React from "react"
+import React, { useState, useEffect, useMemo, memo } from "react"
+
+import { MAX_ATTEMPTS, TOTAL_ANIMATION_DURATION } from "../../contants"
+import BoardRow from "./BoardRow"
 
 import "./Board.css"
-
-import Cell from "../Cell"
-import { MAX_ATTEMPTS, WORD_LENGTH } from "../../contants"
 
 interface BoardProps {
   currentGuess: string
@@ -14,58 +14,56 @@ interface BoardProps {
 }
 
 const Board: React.FC<BoardProps> = ({ currentGuess, history }) => {
-  const renderRow = (rowIndex: number) => {
-    // filled lines
-    if (rowIndex < history.length) {
-      const { word, result } = history[rowIndex]
-      return Array.from(word).map((letter, i) => (
-        <Cell key={i} letter={letter} state={result[i]} />
-      ))
+  const [isRevealing, setIsRevealing] = useState(false)
+  const [revealingRowIndex, setRevealingRowIndex] = useState<number | null>(null)
+
+  useEffect(() => {
+    if (history.length > 0) {
+      const currentRowIndex = history.length - 1
+
+      setRevealingRowIndex(currentRowIndex)
+      setIsRevealing(true)
+
+      const t = setTimeout(() => {
+        setIsRevealing(false)
+        setRevealingRowIndex(null)
+      }, TOTAL_ANIMATION_DURATION)
+
+      return () => clearTimeout(t)
     }
+  }, [history.length])
 
-    // current line
-    if (rowIndex === history.length) {
-      const lastCharIndex = currentGuess.length - 1
-
-      return Array(WORD_LENGTH)
-        .fill(null)
-        .map((_, i) => (
-          <Cell
-            key={i}
-            letter={currentGuess[i] || ""}
-            isHighlighted={i === lastCharIndex && lastCharIndex >= 0}
-          />
-        ))
-    }
-
-    // empty lines
-    return Array(WORD_LENGTH)
+  const rows = useMemo(() => {
+    return Array(MAX_ATTEMPTS)
       .fill(null)
-      .map((_, i) => <Cell key={i} />)
-  }
+      .map((_, rowIndex) => {
+        const historyEntry = history[rowIndex]
+        const isCurrentRow = rowIndex === history.length
+
+        return (
+          <BoardRow
+            key={rowIndex}
+            rowIndex={rowIndex}
+            currentGuess={isCurrentRow ? currentGuess : ""}
+            historyEntry={historyEntry}
+            isRevealing={isRevealing}
+            revealingRowIndex={revealingRowIndex}
+          />
+        )
+      })
+  }, [history, currentGuess, isRevealing, revealingRowIndex])
 
   return (
     <div
+      role="grid"
       className="game__board"
       data-testid="game__board"
-      role="grid"
       aria-labelledby="game-title"
       aria-describedby="game-status"
     >
-      {Array(MAX_ATTEMPTS)
-        .fill(null)
-        .map((_, rowIndex) => (
-          <div
-            key={rowIndex}
-            className="game__board__row"
-            role="row"
-            aria-label={`Row ${rowIndex + 1}`}
-          >
-            {renderRow(rowIndex)}
-          </div>
-        ))}
+      {rows}
     </div>
   )
 }
 
-export default Board
+export default memo(Board)
