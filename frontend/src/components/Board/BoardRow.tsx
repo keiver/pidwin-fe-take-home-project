@@ -1,9 +1,19 @@
 import React, { memo } from "react"
 
-import Cell from "../Cell"
 import { WORD_LENGTH } from "../../contants"
 
-const MemoizedCell = memo(Cell)
+const Cell = React.lazy(() => import("../Cell"))
+
+export interface BoardRowProps {
+  rowIndex: number
+  currentGuess: string
+  historyEntry?: {
+    word: string
+    result: string[]
+  }
+  isRevealing: boolean
+  revealingRowIndex: number | null
+}
 
 const BoardRow = memo(
   ({
@@ -12,14 +22,8 @@ const BoardRow = memo(
     historyEntry,
     isRevealing,
     revealingRowIndex
-  }: {
-    rowIndex: number
-    currentGuess: string
-    historyEntry?: { word: string; result: CellState[] }
-    isRevealing: boolean
-    revealingRowIndex: number | null
-  }) => {
-    // filled rows
+  }: BoardRowProps) => {
+    // already filled rows
     if (historyEntry) {
       const { word, result } = historyEntry
       const isCurrentRowRevealing = isRevealing && rowIndex === revealingRowIndex
@@ -31,11 +35,11 @@ const BoardRow = memo(
           aria-label={`Row ${rowIndex + 1}`}
         >
           {Array.from(word).map((letter, i) => (
-            <MemoizedCell
-              key={i}
+            <Cell
+              key={`${rowIndex}-${i}`}
               index={i}
               letter={letter}
-              state={result[i]}
+              state={result[i] as CellState}
               isRevealing={isCurrentRowRevealing}
             />
           ))}
@@ -56,8 +60,8 @@ const BoardRow = memo(
           {Array(WORD_LENGTH)
             .fill(null)
             .map((_, i) => (
-              <MemoizedCell
-                key={i}
+              <Cell
+                key={`${rowIndex + 1}-${i}`}
                 letter={currentGuess[i] || ""}
                 isHighlighted={i === lastCharIndex && lastCharIndex >= 0}
               />
@@ -76,7 +80,7 @@ const BoardRow = memo(
         {Array(WORD_LENGTH)
           .fill(null)
           .map((_, i) => (
-            <MemoizedCell key={i} />
+            <Cell key={`${rowIndex + 1}-${i}`} />
           ))}
       </div>
     )

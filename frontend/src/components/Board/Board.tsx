@@ -42,11 +42,11 @@ const Board: React.FC<BoardProps> = ({ currentGuess, history }) => {
 
         return (
           <BoardRow
-            key={rowIndex}
+            key={`row-${rowIndex}`}
             rowIndex={rowIndex}
             currentGuess={isCurrentRow ? currentGuess : ""}
             historyEntry={historyEntry}
-            isRevealing={isRevealing}
+            isRevealing={isRevealing && rowIndex === revealingRowIndex}
             revealingRowIndex={revealingRowIndex}
           />
         )

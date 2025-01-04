@@ -6,8 +6,7 @@ const initialState: GameState = {
   history: [],
   gameStatus: "playing",
   error: null,
-  isLoading: false,
-  letterStates: {}
+  isLoading: false
 }
 
 const GameContext = createContext<

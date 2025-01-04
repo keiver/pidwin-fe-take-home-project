@@ -8,12 +8,12 @@ describe("Cell", () => {
     return render(<Cell {...props} />)
   }
 
-  it("renders", () => {
+  test("renders", () => {
     renderCell({ letter: "A" })
     expect(screen.getByTestId("cell-for-letter-A")).toBeInTheDocument()
   })
 
-  it("displays the provided letter", () => {
+  test("displays the provided letter", () => {
     renderCell({ letter: "B" })
 
     const cell = screen.getByTestId("cell-for-letter-B")
@@ -21,7 +21,7 @@ describe("Cell", () => {
     expect(cell).toHaveTextContent("B")
   })
 
-  it("applies the correct CSS class", () => {
+  test("applies the correct CSS class", () => {
     renderCell({ letter: "C" })
 
     const cell = screen.getByTestId("cell-for-letter-C")

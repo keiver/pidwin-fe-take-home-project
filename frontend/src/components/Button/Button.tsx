@@ -12,6 +12,10 @@ export interface ButtonProps {
   "aria-label"?: string
   disabled?: boolean
   loading?: boolean
+  width?: string
+  height?: string
+  round?: boolean
+  title?: string
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -22,8 +26,11 @@ const Button: React.FC<ButtonProps> = ({
   fullWith = false,
   disabled = false,
   loading = false,
+  width,
+  height,
+  round,
   ...props
-}: ButtonProps) => {
+}) => {
   const button = (
     <button
       {...props}
@@ -31,6 +38,11 @@ const Button: React.FC<ButtonProps> = ({
       data-testid={`button-${id}`}
       onClick={onClick}
       className={`unwrapped ${className}`}
+      style={{
+        height,
+        width,
+        borderRadius: round ? "50%" : "8px"
+      }}
     >
       <span>{label}</span>
       {loading && <span className="loader" />}

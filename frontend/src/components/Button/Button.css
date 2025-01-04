@@ -34,6 +34,11 @@
   background-color: var(--color-gray-light);
 }
 
+.container button:active:not(:disabled),
+.unwrapped:active:not(:disabled) {
+  background-color: var(--color-gray-dark);
+}
+
 @media (max-width: 375px) {
   .container button:not(:disabled),
   .unwrapped {

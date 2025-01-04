@@ -14,12 +14,12 @@ A React TypeScript implementation of Wordle, featuring accessibility support and
 - Mock Word validation service integration
 - Animated reveal of guessed word cells
 - Loading spinner for async service calls
+- Restart game button
 
 ## Todo
 
-- Restart game button
-- Some sort of game persistence
 - Instructions modal
+- Some sort of game persistence
 - Server side rendering for SEO
 - Settings (theme toggle, colorblind mode)
 - Additional accessibility improvements

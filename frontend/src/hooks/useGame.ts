@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 
 import { useGameContext } from "../context/GameContext"
 import { checkGuess } from "../services/word"
@@ -26,7 +26,6 @@ interface UseGameHookReturn {
   addLetter: (letter: string) => void
   removeLetter: () => void
   startNewGame: () => void
-  won: boolean | null
 }
 
 export const useGame = ({
@@ -34,7 +33,6 @@ export const useGame = ({
   maxAttempts = MAX_ATTEMPTS
 }: UseGameOptions = {}): UseGameHookReturn => {
   const { state, dispatch } = useGameContext()
-  const [won, setWon] = useState<boolean | null>(null)
 
   // check if the key is a valid letter
   const isValidKey = useCallback((key: string) => /^[a-zA-Z]$/.test(key), [])
@@ -63,13 +61,6 @@ export const useGame = ({
 
       if (response?.success && response?.result) {
         dispatch({ type: "SUBMIT_GUESS_SUCCESS", payload: response.result })
-
-        // in case we change the word length, using repeat
-        if (response.result === "1".repeat(wordLength)) {
-          setWon(true)
-        } else if (state.history.length + 1 >= maxAttempts) {
-          setWon(false)
-        }
       } else {
         throw new Error(response.message || "Invalid word")
       }
@@ -79,17 +70,13 @@ export const useGame = ({
         payload: error instanceof Error ? error.message : "Unknown error"
       })
     }
-  }, [
-    state.currentGuess,
-    state.history.length,
-    dispatch,
-    wordLength,
-    maxAttempts,
-    setWon
-  ])
+  }, [state.currentGuess, state.history.length, dispatch, wordLength, maxAttempts])
 
   const startNewGame = useCallback(() => {
-    dispatch({ type: "START_NEW_GAME" })
+    const reset = () => {
+      dispatch({ type: "START_NEW_GAME" })
+    }
+    reset()
   }, [dispatch])
 
   const board = useMemo(() => {
@@ -149,7 +136,14 @@ export const useGame = ({
     window.addEventListener("keydown", handleKeyPress)
 
     return () => window.removeEventListener("keydown", handleKeyPress)
-  }, [state.gameStatus, isValidKey, addLetter, removeLetter, submitGuess])
+  }, [
+    state.gameStatus,
+    isValidKey,
+    addLetter,
+    removeLetter,
+    submitGuess,
+    startNewGame
+  ])
 
   return {
     currentGuess: state.currentGuess,
@@ -161,7 +155,6 @@ export const useGame = ({
     submitGuess,
     addLetter,
     removeLetter,
-    startNewGame,
-    won
+    startNewGame
   }
 }

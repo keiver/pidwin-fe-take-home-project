@@ -1,7 +1,8 @@
 import React, { useMemo, useState, useEffect } from "react"
 
-import "./Cell.css"
 import { FLIP_DELAY_PER_TILE, FLIP_DURATION } from "../../contants"
+
+import "./Cell.css"
 
 export interface CellProps {
   letter?: string
@@ -17,7 +18,7 @@ const Cell: React.FC<CellProps> = ({
   isHighlighted = false,
   index = 0,
   isRevealing = false
-}: CellProps) => {
+}) => {
   const [isFlipped, setIsFlipped] = useState(false)
   const [hasRevealed, setHasRevealed] = useState(false)
 

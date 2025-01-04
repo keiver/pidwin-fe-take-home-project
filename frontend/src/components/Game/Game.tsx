@@ -4,13 +4,17 @@ import "./Game.css"
 
 import Loader from "../Loader/Loader"
 import { useGame } from "../../hooks/useGame"
+import GameInstructions from "../GameInstructions/GameInstructions"
 
 const Board = lazy(() => import("../Board"))
 const Header = lazy(() => import("../Header/Header"))
 const Button = lazy(() => import("../Button/Button"))
 const Keyboard = lazy(() => import("../Keyboard/Keyboard"))
+const Modal = lazy(() => import("../Modal/Modal"))
 
 const Game: React.FC = () => {
+  const [modalOpen, setModalOpen] = React.useState(false)
+
   const {
     currentGuess,
     guessHistory: history,
@@ -20,7 +24,7 @@ const Game: React.FC = () => {
     submitGuess,
     addLetter,
     removeLetter,
-    won
+    startNewGame
   } = useGame()
 
   const onGuessWordClicked = useCallback(() => {
@@ -41,20 +45,28 @@ const Game: React.FC = () => {
   )
 
   const buttonLabel = useMemo(() => {
-    if (won === true) {
+    if (gameStatus === "won") {
       return "Winner"
     }
 
-    if (won === false) {
+    if (gameStatus === "lost") {
       return "Game Over"
     }
 
     return "Guess Word"
-  }, [won])
+  }, [gameStatus])
 
   const isMainButtonDisabled = useMemo(() => {
     return isLoading || gameStatus !== "playing" || currentGuess.length !== 5
   }, [isLoading, gameStatus, currentGuess])
+
+  const onHelpClicked = useCallback(() => {
+    setModalOpen(true)
+  }, [setModalOpen])
+
+  const onResetClicked = useCallback(() => {
+    startNewGame()
+  }, [startNewGame])
 
   return (
     <Suspense fallback={<Loader />}>
@@ -64,16 +76,16 @@ const Game: React.FC = () => {
         aria-label="Wordle Game Clone"
         data-testid="game-entry"
       >
-        <Header />
+        <Header onHelpClick={onHelpClicked} onResetClick={onResetClicked} />
         <div
+          className="sr-only"
           aria-live="polite"
           aria-atomic="true"
-          className="sr-only"
           id="game-status"
         >
           Current attempt {history.length + 1} of 6.
-          {won === true && "You won!"}
-          {won === false && "Game over."}
+          {gameStatus === "won" && "You won!"}
+          {gameStatus === "lost" && "Game over."}
         </div>
         <div className="centered">
           <div className="column">
@@ -100,6 +112,9 @@ const Game: React.FC = () => {
           </div>
         </div>
       </div>
+      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+        <GameInstructions />
+      </Modal>
     </Suspense>
   )
 }

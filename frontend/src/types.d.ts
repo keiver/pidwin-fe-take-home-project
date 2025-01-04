@@ -18,7 +18,6 @@ interface GameState {
   gameStatus: "playing" | "won" | "lost"
   error: string | null
   isLoading: boolean
-  letterStates: LetterState
 }
 
 type GameAction =

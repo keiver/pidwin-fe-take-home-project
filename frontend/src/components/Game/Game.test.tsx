@@ -1,5 +1,5 @@
-import React from "react"
-import { render, screen, fireEvent } from "@testing-library/react"
+import React, { act } from "react"
+import { render, screen, fireEvent, waitFor } from "@testing-library/react"
 
 import Game from "./Game"
 import { useGame } from "../../hooks/useGame"
@@ -28,17 +28,27 @@ describe("Game", () => {
 
   test("renders", () => {
     render(<Game />)
-    expect(screen.getByTestId("game-entry")).toBeInTheDocument()
-    expect(screen.getByTestId("game__header")).toBeInTheDocument()
-    expect(screen.getByText("Current attempt 1 of 6")).toBeInTheDocument()
+
+    waitFor(() => {
+      expect(screen.getByTestId("game-entry")).toBeInTheDocument()
+      expect(screen.getByTestId("game__header")).toBeInTheDocument()
+      expect(screen.getByText("Current attempt 1 of 6")).toBeInTheDocument()
+    })
   })
 
   test("handles letter input via keyboard", () => {
     const addLetter = jest.fn()
 
     mockUseGame.mockReturnValue({ ...mockGameState, addLetter })
-    render(<Game />)
-    fireEvent.click(screen.getByLabelText("A"))
+
+    waitFor(() => {
+      render(<Game />)
+    })
+
+    act(() => {
+      fireEvent.click(screen.getByLabelText("A"))
+    })
+
     expect(addLetter).toHaveBeenCalledWith("A")
   })
 
@@ -49,7 +59,10 @@ describe("Game", () => {
       gameStatus: "playing"
     })
 
-    render(<Game />)
+    waitFor(() => {
+      render(<Game />)
+    })
+
     expect(screen.getByTestId("button-guess-button")).toBeDisabled()
   })
 
@@ -60,7 +73,10 @@ describe("Game", () => {
       gameStatus: "won"
     })
 
-    render(<Game />)
+    waitFor(() => {
+      render(<Game />)
+    })
+
     expect(screen.getByTestId("button-guess-button")).toHaveTextContent("Winner")
   })
 
@@ -71,7 +87,10 @@ describe("Game", () => {
       gameStatus: "lost"
     })
 
-    render(<Game />)
+    waitFor(() => {
+      render(<Game />)
+    })
+
     expect(screen.getByTestId("button-guess-button")).toHaveTextContent("Game Over")
   })
 })
