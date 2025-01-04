@@ -1,6 +1,6 @@
 # React Wordle Clone
 
-A React TypeScript implementation of Wordle, featuring accessibility support and error handling.
+A React TypeScript implementation of Wordle. Assessment. 
 
 ## Current Features
 
