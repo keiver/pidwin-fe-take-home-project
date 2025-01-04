@@ -1,4 +1,4 @@
-import React, {ReactNode} from "react"
+import React, { ReactNode } from "react"
 import ErrorScreen from "../ErrorScreen/ErrorScreen"
 
 interface ErrorBoundaryProps {

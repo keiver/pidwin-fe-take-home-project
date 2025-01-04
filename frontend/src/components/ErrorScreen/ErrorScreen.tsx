@@ -2,11 +2,11 @@ import React from "react"
 
 import "./ErrorScreen.css"
 
-export interface Props {
+export interface ErrorScreenProps {
   error?: Error | null
 }
 
-const ErrorScreen: React.FC<Props> = ({error}: Props) => {
+const ErrorScreen: React.FC<ErrorScreenProps> = ({ error }) => {
   return (
     <div className="error__screen">
       <h1>Error</h1>

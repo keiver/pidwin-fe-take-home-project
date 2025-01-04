@@ -1,32 +1,121 @@
-import React, {useCallback} from "react"
+import React, { useCallback, useMemo, lazy, Suspense } from "react"
 
 import "./Game.css"
 
-import Board from "../Board"
-import Header from "../Header/Header"
-import Button from "../Button/Button"
-import Keyboard from "../Keyboard/Keyboard"
+import { useGame } from "../../hooks/useGame"
+import Loader from "../Loader/Loader"
+
+const Board = lazy(() => import("../Board"))
+const Header = lazy(() => import("../Header/Header"))
+const Button = lazy(() => import("../Button/Button"))
+const Keyboard = lazy(() => import("../Keyboard/Keyboard"))
+const Modal = lazy(() => import("../Modal/Modal"))
+const GameInstructions = lazy(() => import("../GameInstructions/GameInstructions"))
 
 const Game: React.FC = () => {
-  const onGuessWordClicked = useCallback(() => {
-    console.log("Guess Word button clicked")
-  }, [])
+  const [modalOpen, setModalOpen] = React.useState(false)
 
-  const onKeyClicked = useCallback((key: string) => {
-    console.log(`Key clicked: ${key}`)
-  }, [])
+  const {
+    currentGuess,
+    guessHistory: history,
+    gameStatus,
+    error,
+    isLoading,
+    submitGuess,
+    addLetter,
+    removeLetter,
+    startNewGame
+  } = useGame()
+
+  const onGuessWordClicked = useCallback(() => {
+    submitGuess()
+  }, [submitGuess])
+
+  const onKeyClicked = useCallback(
+    (key: string) => {
+      if (key === "ENTER") {
+        submitGuess()
+      } else if (key === "BACKSPACE" || key === "DELETE") {
+        removeLetter()
+      } else {
+        addLetter(key)
+      }
+    },
+    [addLetter, removeLetter, submitGuess]
+  )
+
+  const buttonLabel = useMemo(() => {
+    if (gameStatus === "won") {
+      return "Winner"
+    }
+
+    if (gameStatus === "lost") {
+      return "Game Over"
+    }
+
+    return "Guess Word"
+  }, [gameStatus])
+
+  const isMainButtonDisabled = useMemo(() => {
+    return isLoading || gameStatus !== "playing" || currentGuess.length !== 5
+  }, [isLoading, gameStatus, currentGuess])
+
+  const onHelpClicked = useCallback(() => {
+    setModalOpen(true)
+  }, [setModalOpen])
+
+  const onResetClicked = useCallback(() => {
+    startNewGame()
+  }, [startNewGame])
 
   return (
-    <div className="game" data-testid="game-entry">
-      <Header />
-      <div className="centered">
-        <div className="column">
-          <Board />
-          <Button id="guess-button" label="Guess Word" fullWith onClick={onGuessWordClicked} />
-          <Keyboard onKeyClicked={onKeyClicked} />
+    <Suspense fallback={<Loader />}>
+      <div
+        className="game"
+        role="main"
+        aria-label="Wordle Game Clone"
+        data-testid="game-entry"
+      >
+        <Header onHelpClick={onHelpClicked} onResetClick={onResetClicked} />
+        <div
+          className="sr-only"
+          aria-live="polite"
+          aria-atomic="true"
+          id="game-status"
+        >
+          Current attempt {history.length + 1} of 6.
+          {gameStatus === "won" && "You won!"}
+          {gameStatus === "lost" && "Game over."}
+        </div>
+        <div className="centered">
+          <div className="column">
+            <Board
+              currentGuess={currentGuess}
+              history={history.map(h => ({
+                word: h.word,
+                result: h.result
+              }))}
+            />
+            <Button
+              id="guess-button"
+              label={buttonLabel}
+              fullWith
+              loading={isLoading}
+              onClick={onGuessWordClicked}
+              disabled={isMainButtonDisabled}
+            />
+            {error && <div className="error">{error}</div>}
+            <Keyboard
+              onKeyClicked={onKeyClicked}
+              disabled={isLoading || gameStatus !== "playing"}
+            />
+          </div>
         </div>
       </div>
-    </div>
+      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+        <GameInstructions />
+      </Modal>
+    </Suspense>
   )
 }
 
