@@ -70,7 +70,7 @@ export const useGame = ({
         payload: error instanceof Error ? error.message : "Unknown error"
       })
     }
-  }, [state.currentGuess, state.history.length, dispatch, wordLength])
+  }, [state.currentGuess, dispatch, wordLength])
 
   const startNewGame = useCallback(() => {
     const reset = () => {
